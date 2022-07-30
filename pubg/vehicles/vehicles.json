@@ -1,0 +1,188 @@
+{"frames": {
+
+"vehcile_aquarail":
+{
+	"frame": {"x":739,"y":102,"w":64,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":22},
+	"sourceSize": {"w":64,"h":22}
+},
+"vehcile_brdm":
+{
+	"frame": {"x":365,"y":2,"w":64,"h":46},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":46},
+	"sourceSize": {"w":64,"h":46}
+},
+"vehcile_train":
+{
+	"frame": {"x":672,"y":69,"w":64,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":31},
+	"sourceSize": {"w":64,"h":31}
+},
+"vehcile_loottruck":
+{
+	"frame": {"x":69,"y":69,"w":64,"h":55},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":55},
+	"sourceSize": {"w":64,"h":55}
+},
+"vehcile_rony":
+{
+	"frame": {"x":404,"y":69,"w":64,"h":46},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":46},
+	"sourceSize": {"w":64,"h":46}
+},
+"vehcile_mirado":
+{
+	"frame": {"x":605,"y":69,"w":64,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":35},
+	"sourceSize": {"w":64,"h":35}
+},
+"vehcile_miradoopen":
+{
+	"frame": {"x":634,"y":2,"w":64,"h":34},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":34},
+	"sourceSize": {"w":64,"h":34}
+},
+"vehcile_motorbike":
+{
+	"frame": {"x":2,"y":2,"w":63,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":64},
+	"sourceSize": {"w":63,"h":64}
+},
+"vehcile_motorbikeside":
+{
+	"frame": {"x":136,"y":69,"w":64,"h":53},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":53},
+	"sourceSize": {"w":64,"h":53}
+},
+"vehicle_motorglider":
+{
+	"frame": {"x":772,"y":2,"w":64,"h":25},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":25},
+	"sourceSize": {"w":64,"h":25}
+},
+"vehcile_niva":
+{
+	"frame": {"x":203,"y":69,"w":64,"h":51},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":51},
+	"sourceSize": {"w":64,"h":51}
+},
+"vehcile_pickuptruck":
+{
+	"frame": {"x":538,"y":69,"w":64,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":40},
+	"sourceSize": {"w":64,"h":40}
+},
+"vehcile_scooter":
+{
+	"frame": {"x":2,"y":69,"w":56,"h":64},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":56,"h":64},
+	"sourceSize": {"w":56,"h":64}
+},
+"vehcile_snowbike":
+{
+	"frame": {"x":414,"y":2,"w":64,"h":46},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":46},
+	"sourceSize": {"w":64,"h":46}
+},
+"vehcile_snowmobile":
+{
+	"frame": {"x":337,"y":69,"w":64,"h":49},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":49},
+	"sourceSize": {"w":64,"h":49}
+},
+"vehcile_tuk":
+{
+	"frame": {"x":134,"y":2,"w":64,"h":60},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":60},
+	"sourceSize": {"w":64,"h":60}
+},
+"vehcile_van":
+{
+	"frame": {"x":508,"y":2,"w":64,"h":41},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":41},
+	"sourceSize": {"w":64,"h":41}
+},
+"vehcile_buggy":
+{
+	"frame": {"x":552,"y":2,"w":64,"h":39},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":39},
+	"sourceSize": {"w":64,"h":39}
+},
+"vehcile_dacia":
+{
+	"frame": {"x":594,"y":2,"w":64,"h":37},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":37},
+	"sourceSize": {"w":64,"h":37}
+},
+"vehcile_plane":
+{
+	"frame": {"x":739,"y":69,"w":64,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":30},
+	"sourceSize": {"w":64,"h":30}
+},
+"vehcile_pg117":
+{
+	"frame": {"x":672,"y":103,"w":64,"h":19},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":19},
+	"sourceSize": {"w":64,"h":19}
+},
+"vehcile_uaz":
+{
+	"frame": {"x":257,"y":2,"w":64,"h":51},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":51},
+	"sourceSize": {"w":64,"h":51}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "vehicles.png",
+	"format": "RGBA8888",
+	"size": {"w":805,"h":127},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5ebb9b7dd14b9c7f35c4183d6a1c3b5e:624b723d843e8b4241b417a2eed1e202:82467e3b637fc9a91fbb58f83d449d45$"
+}
+}

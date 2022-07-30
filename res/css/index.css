@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'Headliner';
+    src: local('Headliner'), url('headliner.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto'), url('roboto.ttf') format('truetype');
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #111;
+}
+
+.container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.container canvas {
+    display: block;
+}
+
+#zoom {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
+#zoom div {
+    width: 64px;
+    height: 64px;
+    background-size: 100% 100%;
+    margin-bottom: 8px;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 10px;
+}
+
+#zoom div:hover {
+    /* transform: scale(1.1); */
+    opacity: 1;
+}
+
+#zoom .reset {
+    background-image: url(/res/img/reset.png);
+}
+
+#zoom .add {
+    background-image: url(/res/img/add.png);
+}
+
+#zoom .sub {
+    background-image: url(/res/img/sub.png);
+}
+
+#zoom .config {
+    background-image: url(/res/img/config.png);
+}
+
+#zoom .qrcode {
+    background-image: url(/res/img/qrcode.png);
+}
+
+*::-webkit-scrollbar {
+    width: 14px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #000000;
+    border-left: 1px solid #000000;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0c0c0c;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}

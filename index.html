@@ -1,42 +1,417 @@
----
-layout: page
-description: "Thinking will not overcome fear but action will."
----
+<!DOCTYPE html>
+<html>
 
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">
-            {{ post.title }}
-        </h2>
-        {% if post.subtitle %}
-        <h3 class="post-subtitle">
-            {{ post.subtitle }}
-        </h3>
-        {% endif %}
-        <div class="post-content-preview">
-            {{ post.content | strip_html | truncate:200 }}
+<head>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Radar</title>
+    <link rel="stylesheet" href="/res/css/index.css">
+    <link rel="stylesheet" href="/res/css/menu.css">
+    <link rel="stylesheet" href="/res/css/message.min.css">
+
+    <script src="/res/libs/aes-min.js"></script>
+    <script src="/res/libs/jquery.min.js"></script>
+    <script src="/res/libs/js.cookie.min.js"></script>
+    <script src="/res/libs/robust-websocket.min.js"></script>
+    <script src="/res/libs/pixi.min.js"></script>
+    <script src="/res/libs/pixi-viewport.min.js"></script>
+    <script src="/res/libs/pixi-graphics-extras.min.js"></script>
+    <script src="/res/libs/message.min.js"></script>
+    <script src="/res/libs/qrcode.js"></script>
+    <script src="/res/libs/socket.io.min.js"></script>
+
+    <script src="/pubg/data.js"></script>
+    <script src="/res/js/menu.js"></script>
+    <script src="/res/js/radar.js"></script>
+    <script src="/res/js/utils.js"></script>
+    <script src="/res/js/index.js"></script>
+</head>
+
+<body>
+    <div id="mainMenu" style="visibility:hidden">
+        <div class="container">
+            <span id="radar"></span>
         </div>
-    </a>
-    <p class="post-meta">
-        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-    </p>
-</div>
-<hr>
-{% endfor %}
+        <div id="zoom">
+            <div class="reset"></div>
+            <div class="add"></div>
+            <div class="sub"></div>
+            <div class="config"></div>
+            <div class="qrcode"></div>
+            <div id="qrcodeMenu" style="width:150px;height:150px;background:#fff;visibility:hidden">
+                <div style="padding-left: 25px;padding-top: 25px;" id="code">
+                </div>
+            </div>
+        </div>
+        <div id="window" style="visibility:hidden">
+            <div id="tabsDiv">
+                <ul id="accordion">
+                    <li>
+                        <h2>Player</h2>
+                        <div class="Player">
+                            <input type="checkbox" style="width:10px" id="DrawEnemy" />
+                            <input type="checkbox" style="width:10px" id="DrawTeam" />
+                            <input type="checkbox" style="width:10px" id="DrawHealth" />
+                            <input type="checkbox" style="width:10px" id="DrawIndex" />
+                            <br>
+                            <br>
+                            <input type="checkbox" style="width:10px" id="DrawName" />
+                            <input type="checkbox" style="width:10px" id="DrawViewLine" />
+                            <input type="checkbox" style="width:10px" id="DrawKill" />
+                            <input type="checkbox" style="width:10px" id="DrawDistance" />
+                            <br>
+                            <br>
+                            <input type="checkbox" style="width:10px" id="DrawHeight" />
+                            <input type="checkbox" style="width:10px" id="DrawMarkPoint" />
+                            <input type="checkbox" style="width:10px" id="FollowView" />
+                            <input type="checkbox" style="width:10px" id="MapRotate" />
+                            <br>
+                            <br>
+                            <div class="item">
+                                <div class="title" id="DrawPlayerSizeInfo">DrawSize: 6</div>
+                                <div class="input">
+                                    <input type="text" id="DrawPlayerSize" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>Item</h2>
+                        <div class="item">
+                            <input type="checkbox" style="width:10px" id="DrawItem" />
+                            <input type="checkbox" style="width:10px" id="DrawItemOutLine" />
+                            <input type="checkbox" style="width:10px" id="DrawItemName" />
+                            <input type="checkbox" style="width:10px" id="DrawItemIcon" />
+                            <br>
+                            <br>
+                            <div id="itemTabs">
+                                <ul>
+                                    <li>Rifle</li>
+                                    <li>Parts</li>
+                                    <li>Drugs</li>
+                                    <li>Ammo</li>
+                                    <li>Armor</li>
+                                    <li>Grenade</li>
+                                    <li>Airdrop</li>
+                                </ul>
+                                <div>
+                                    <span>AKM</span>
+                                    <input id="item_akm" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspAUG</span>
+                                    <input id="item_aug" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspAWM</span>
+                                    <input id="item_awm" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspBeryl</span>
+                                    <input id="item_beryl" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspGroza</span>
+                                    <input id="item_groza" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspG36C</span>
+                                    <input id="item_g36c" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>SLR&nbsp</span>
+                                    <input id="item_slr" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspM416</span>
+                                    <input id="item_m416" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMK47</span>
+                                    <input id="item_mk47" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspM16A4</span>
+                                    <input id="item_m16a4" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspM249</span>
+                                    <input id="item_m249" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspM24</span>
+                                    <input id="item_m24" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>MG3</span>
+                                    <input id="item_mg3" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMini14</span>
+                                    <input id="item_mini14" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMK14</span>
+                                    <input id="item_mk14" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspKar98k</span>
+                                    <input id="item_98k" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMosin</span>
+                                    <input id="item_mosin" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspQBU</span>
+                                    <input id="item_qbu" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>QBZ95</span>
+                                    <input id="item_qbz95" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspScar</span>
+                                    <input id="item_scar" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSKS</span>
+                                    <input id="item_sks" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspFlareGun</span>
+                                    <input id="item_flaregun" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>RedDot Sight</span>
+                                    <input id="item_reddot" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspHolo sight</span>
+                                    <input id="item_holo" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbsp3X Scope</span>
+                                    <input id="item_3x" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbsp4X Scope</span>
+                                    <input id="item_4x" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>6X Scope</span>
+                                    <input id="item_6x" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbsp8X Scope</span>
+                                    <input id="item_8x" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSupressor Rifle</span>
+                                    <input id="item_supressor" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSupressor Sniper</span>
+                                    <input id="item_supressorsniper" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Tactical butt</span>
+                                    <input id="item_tactical" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspBullet Loops</span>
+                                    <input id="item_bulletloops" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspVertical Grip</span>
+                                    <input id="item_vertical" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspHalf grip</span>
+                                    <input id="item_half" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Triangular grip</span>
+                                    <input id="item_triangular" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspLight grip</span>
+                                    <input id="item_light" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspThumb grip</span>
+                                    <input id="item_thumb" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspCheek Pad</span>
+                                    <input id="item_cheekpad" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Compensator Rifle</span>
+                                    <input id="item_compensatorrfile" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspCompensator Sniper</span>
+                                    <input id="item_compensatorsniper" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspExtended Magazine Rifle</span>
+                                    <input id="item_extendedfile" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Extended Quick Magazine Rifle</span>
+                                    <input id="item_extendedquickfile" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspExtended Quick Magazine Sniper</span>
+                                    <input id="item_extendedquicksniper" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>Adrenaline</span>
+                                    <input id="item_adrenaline" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspEnergy Drink</span>
+                                    <input id="item_drink" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspPainkiller</span>
+                                    <input id="item_painkiller" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspFirst Aid</span>
+                                    <input id="item_firstaid" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Med kit</span>
+                                    <input id="item_medkit" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>5.56mm</span>
+                                    <input id="item_556" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbsp7.62mm</span>
+                                    <input id="item_762" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>Helmet LV2</span>
+                                    <input id="item_helmet2" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspArmor LV2</span>
+                                    <input id="item_armor2" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspBackpack LV2</span>
+                                    <input id="item_backpack2" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspHelmet LV3</span>
+                                    <input id="item_helmet3" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Armor LV3</span>
+                                    <input id="item_armor3" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspBackpack LV3</span>
+                                    <input id="item_backpack3" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>Decoy Grenade</span>
+                                    <input id="item_decoy" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspFrag Grenade</span>
+                                    <input id="item_frag" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSnoke Grenade</span>
+                                    <input id="item_smoke" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Sticky Bomb</span>
+                                    <input id="item_sticky" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspC4 Bomb</span>
+                                    <input id="item_c4" type="checkbox" checked="checked" value="" />
+                                </div>
+                                <div>
+                                    <span>Airdrop</span>
+                                    <input id="item_airdrop" type="checkbox" checked="checked" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>Vehicle</h2>
+                        <div class="Item">
+                            <input type="checkbox" style="width:10px" id="DrawVehicle" />
+                            <input type="checkbox" style="width:10px" id="DrawVehicleOutLine" />
+                            <input type="checkbox" style="width:10px" id="DrawVehicleName" />
+                            <input type="checkbox" style="width:10px" id="DrawVehicleIcon" />
+                            <br>
+                            <br>
+                            <div id="vehicleTabs">
+                                <ul>
+                                    <li>Car</li>
+                                    <li>Ship</li>
+                                    <li>Train</li>
+                                    <li>Plane</li>
+                                    <li>Other</li>
+                                </ul>
+                                <div>
+                                    <span>Rony</span>
+                                    <input id="vehcile_rony" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMirado</span>
+                                    <input id="vehcile_mirado" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMirado Open</span>
+                                    <input id="vehcile_miradoopen" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMotorBike</span>
+                                    <input id="vehcile_motorbike" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspMotorBike Side</span>
+                                    <input id="vehcile_motorbikeside" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>Niva</span>
+                                    <input id="vehcile_niva" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspPickup Truck</span>
+                                    <input id="vehcile_pickuptruck" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspScooter</span>
+                                    <input id="vehcile_scooter" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSnowbike</span>
+                                    <input id="vehcile_snowbike" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspSnowmobile</span>
+                                    <input id="vehcile_snowmobile" type="checkbox" checked="checked" value="" />
+                                    <br>
+                                    <br>
+                                    <span>TukTuk</span>
+                                    <input id="vehcile_tuk" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspVan</span>
+                                    <input id="vehcile_van" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspBuggy</span>
+                                    <input id="vehcile_buggy" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspDacia</span>
+                                    <input id="vehcile_dacia" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspUaz</span>
+                                    <input id="vehcile_uaz" type="checkbox" checked="checked" value="" />
+                                </div>
 
-<!-- Pager -->
-{% if paginator.total_pages > 1 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
-{% endif %}
+                                <div>
+                                    <span>AquaRail</span>
+                                    <input id="vehcile_aquarail" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspPG117</span>
+                                    <input id="vehcile_pg117" type="checkbox" checked="checked" value="" />
+                                </div>
+
+                                <div>
+                                    <span>Train</span>
+                                    <input id="vehcile_train" type="checkbox" checked="checked" value="" />
+                                </div>
+
+                                <div>
+                                    <span>Plane</span>
+                                    <input id="vehcile_plane" type="checkbox" checked="checked" value="" />
+                                    <span>Motorglider</span>
+                                    <input id="vehicle_motorglider" type="checkbox" checked="checked" value="" />
+                                </div>
+
+                                <div>
+                                    <span>BRDM</span>
+                                    <input id="vehcile_brdm" type="checkbox" checked="checked" value="" />
+                                    <span>&nbsp&nbspLoot Truck</span>
+                                    <input id="vehcile_loottruck" type="checkbox" checked="checked" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>AimBot</h2>
+                        <div class="Item">
+                            <input type="checkbox" style="width:10px" id="AimBot" />
+                            <input type="checkbox" style="width:10px" id="FallDownNoAim" />
+                            <input type="checkbox" style="width:10px" id="SmoothMode" />
+
+                            <br>
+                            <br>
+                            <label for="AimHotKey">Aim Hotkey</label>
+                            <select id="AimHotKey">
+                                    <option value="0">Left Key</option>
+                                    <option value="1" selected>Right Key</option>
+                                    <option value="2">Shift Key</option>
+                                    <option value="3">Ctrl Key</option>
+                                    <option value="4">Q / E key</option>
+                                </select>
+                            <label for="AimPosition">&nbsp&nbsp&nbspAim Position</label>
+                            <select id="AimPosition">
+                                    <option value="0">Head</option>
+                                    <option value="1" selected>Neck</option>
+                                    <option value="2">Spine</option>
+                                </select>
+                            <br>
+                            <br>
+                            <label for="AimSpeed">Aim Speed&nbsp</label>
+                            <select id="AimSpeed">
+                                    <option value="0">1</option>
+                                    <option value="1">2</option>
+                                    <option value="2">3</option>
+                                    <option value="3">4</option>
+                                    <option value="4" selected>5</option>
+                                    <option value="5">6</option>
+                                    <option value="6">7</option>
+                                    <option value="7">8</option>
+                                    <option value="8">9</option>
+                                    <option value="9">10</option>
+                                </select>
+                            <label for="AimRange">&nbsp&nbsp&nbspAim Range&nbsp&nbsp</label>
+                            <select id="AimRange">
+                                    <option value="0">100</option>
+                                    <option value="1">150</option>
+                                    <option value="2" selected>200</option>
+                                    <option value="3">250</option>
+                                    <option value="4">300</option>
+                                    <option value="5">350</option>
+                                </select>
+                            <br>
+                            <br>
+                            <label for="AimLockHeadKey">AimLockHead Key&nbsp</label>
+                            <select id="AimLockHeadKey">
+                                    <option value="0">Left Key</option>
+                                    <option value="1">Right Key</option>
+                                    <option value="2" selected>Shift Key</option>
+                                    <option value="3">Ctrl Key</option>
+                                    <option value="4">Q / E key</option>
+                                </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery('#code').qrcode({
+            width: 100,
+            height: 100,
+            text: window.location.href
+        });
+    </script>
+</body>
+
+</html>
