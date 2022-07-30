@@ -1467,6 +1467,7 @@ function initUI(_0x1ecf82, _0x52e3e2) {
 		'checked': _0x1ecf82.aimbot.SmoothMode,
 		'events': {
 			'click': function () {
+				debugger
 				_0x1ecf82.aimbot.SmoothMode = !_0x1ecf82.aimbot.SmoothMode;
 				for (let _0x176326 = 0; _0x176326 < ws.length; _0x176326++) {
 					if (ws[_0x176326].readyState == 1) {
@@ -1646,7 +1647,6 @@ $(function () {
 				}
 			});
 			ws[_0x1e95c4].addEventListener('open', function (_0x1f7d0b) {
-				debugger
 				for (let _0x272daa = 0; _0x272daa < ws.length; _0x272daa++) {
 					if (_0x1e95c4 != _0x272daa) {
 						ws[_0x272daa].close();
@@ -1655,7 +1655,6 @@ $(function () {
 				x0p('Successful', 'Successfully connected to the server', 'ok', false);
 			});
 			ws[_0x1e95c4].addEventListener('message', function (_0xcc1337) {
-				debugger
 				_0x387c21(_0xcc1337.data);
 			});
 		}
@@ -1903,6 +1902,7 @@ $(function () {
 					_0x383439 = 0;
 				}
 				if (menuConfig.players.DrawEnemy) {
+					debugger
 					_0x269253.drawPlayer(false, _0x2e3732.x, _0x2e3732.y, _0x205d52.r + _0x383439, _0x24084f, menuConfig.players.DrawSize, menuConfig.players.DrawName == true ? _0x205d52.n : '', _0x205d52.k, _0x205d52.is ? false : _0x269253.viewLineScope(_0x57d1cc, _0x205d52, 7), _0x30a86e, menuConfig.players.DrawHeight ? (_0x32261e + _0x1acee9) : _0x32261e, _0x205d52.h);
 				}
 				if (_0x205d52.mx != null && _0x205d52.my != null && (_0x205d52.mx != 0) && _0x205d52.my != 0 && _0x205d52.is) {
